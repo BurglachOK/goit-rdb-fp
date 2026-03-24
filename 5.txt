@@ -1,0 +1,19 @@
+DELIMITER //
+
+CREATE FUNCTION calculate_year_diff(input_year INT) 
+RETURNS INT
+DETERMINISTIC
+BEGIN
+    DECLARE start_date DATE;
+    DECLARE diff INT;
+    SET start_date = STR_TO_DATE(CONCAT(input_year, '-01-01'), '%Y-%m-%d');
+    SET diff = TIMESTAMPDIFF(YEAR, start_date, CURDATE());
+    RETURN diff;
+END //
+
+DELIMITER ;
+
+SELECT 
+    Year, 
+    calculate_year_diff(Year) AS years_passed
+FROM (SELECT DISTINCT Year FROM normalized_infectious_cases) AS unique_years;

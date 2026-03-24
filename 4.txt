@@ -1,0 +1,6 @@
+SELECT 
+    Year,
+    STR_TO_DATE(CONCAT(Year, '-01-01'), '%Y-%m-%d') AS first_jan_date,
+    CURDATE() AS current_date_val,
+    TIMESTAMPDIFF(YEAR, STR_TO_DATE(CONCAT(Year, '-01-01'), '%Y-%m-%d'), CURDATE()) AS year_difference
+FROM (SELECT DISTINCT Year FROM normalized_infectious_cases) AS unique_years;
